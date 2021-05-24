@@ -1,7 +1,7 @@
 coverage==5.5
 flake8==3.9.2
-ipdb==0.13.7
-ipython==7.23.1
+ipdb
+ipython
 Pympler==0.9
 pytest==6.2.4
 pytest-cov==2.12.0
