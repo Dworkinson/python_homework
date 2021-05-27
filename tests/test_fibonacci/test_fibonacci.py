@@ -14,3 +14,6 @@ def test_positive_fibonacci_sequence(index, expected_values):
         test_values.append(value)
 
     assert test_values == expected_values
+
+    with pytest.raises(StopIteration):
+        next(test_generator)
