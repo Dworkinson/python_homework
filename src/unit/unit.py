@@ -31,7 +31,8 @@ class Unit:
             )
 
     def ensure_is_alive(self) -> None:
-        raise UnitIsDead('Unit is already dead')
+        if self.current_HP <= 0:
+            raise UnitIsDead('Unit is already dead')
 
     @property
     def name(self) -> str:
@@ -52,23 +53,23 @@ class Unit:
     @name.setter
     def name(self, name: Any) -> None:
         self._check_name(name)
-        self.name = name
+        self._name = name
 
     @current_HP.setter
     def current_HP(self, hp: Any) -> None:
         self._validate(hp)
-        self.current_HP = hp
+        self._current_HP = hp
         self._limit()
 
     @max_HP.setter
     def max_HP(self, hp: Any) -> None:
         self._validate(hp)
-        self.max_HP = hp
+        self._max_HP = hp
 
     @damage.setter
     def damage(self, damage: Any) -> None:
         self._validate(damage)
-        self.damage = damage
+        self._damage = damage
 
     def _limit(self) -> None:
         if self.current_HP < 0:
@@ -79,24 +80,27 @@ class Unit:
 
     def add_hp(self, hp: Any) -> None:
         self._validate(hp)
+        self.ensure_is_alive()
         self.current_HP += hp
         self._limit()
 
     def take_damage(self, damage: Any) -> None:
         self._validate(damage)
+        self.ensure_is_alive()
         self.current_HP -= damage
         self._limit()
 
     def attack(self, enemy: Any) -> None:
         self._check_type(enemy)
-        enemy.ensure_is_alive()
         enemy.take_damage(self.damage)
+        if enemy.current_HP > 0:
+            enemy.counter_attack(self)
 
     def counter_attack(self, enemy: Any) -> None:
         self._check_type(enemy)
         enemy.take_damage(self.damage / 2)
 
     def __str__(self) -> str:
-        return f'Name: {self.name}/n' \
-               f'HP: {self.current_HP} / {self.max_HP}/n' \
+        return f'Name: {self.name}\n' \
+               f'HP: {self.current_HP}/{self.max_HP}\n' \
                f'Damage: {self.damage}'
