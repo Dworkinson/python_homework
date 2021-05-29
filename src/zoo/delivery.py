@@ -1,0 +1,2 @@
+def deliver(animal):
+    pass
