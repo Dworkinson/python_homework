@@ -1,55 +1,54 @@
-def max_5():
-    values = []
-    values.append(float(input('Enter a number\n')))
-    values.append(float(input('Enter another number\n')))
-    values.append(float(input('Enter another number\n')))
-    values.append(float(input('Enter another number\n')))
-    values.append(float(input('Enter another number\n')))
-    print(max(values))
+from functools import reduce
 
 
-class WrongValue(Exception):
+class InvalidParameter(Exception):
     pass
 
 
-def factorial(value):
-    if int(value) <= 1:
-        if value < 0:
-            raise WrongValue
+def max5():
+    values = input().strip().split(' ')
+    if len(values) != 5:
+        raise InvalidParameter()
+
+    return max(map(int, values))
+
+
+def factorial_recursion(n):
+    if n < 0:
+        raise InvalidParameter()
+
+    if n <= 1:
         return 1
-    return factorial(value - 1) * value
+
+    return factorial_recursion(n - 1) * n
+
+
+def factorial(n):
+    if n < 0:
+        raise InvalidParameter()
+
+    if n <= 1:
+        print(1)
+
+    result = 2
+    for i in range(3, n+1):
+        result *= i
+    print(result)
+
+
+def factorial2(n):
+    if n < 0:
+        raise InvalidParameter()
+
+    if n <= 1:
+        print(1)
+
+    print(reduce(lambda x, y: x * y, range(2, n+1)))
 
 
 def array_abs(array):
-    abs_array = []
-    for i in array:
-        abs_array.append(abs(i))
-    return abs_array
+    return [abs(elem) for elem in array]
 
 
 def array_sum(array):
     return sum(array)
-
-
-class Zero(Exception):
-    pass
-
-
-def abcz3():
-    def _is_not_zero(value):
-        if value == 0:
-            raise Zero
-        return value
-
-    a = _is_not_zero(int(input()))
-    b = _is_not_zero(int(input()))
-    c = _is_not_zero(int(input()))
-
-    if a + b > c:
-        print('alpha')
-    elif (b - c) < a:
-        print('bravo')
-    elif (b % c) == 0:
-        print('charlie')
-    else:
-        print('zulu')
