@@ -42,7 +42,6 @@ class Book:
         self._changed = True
 
     def save(self):
-        
         if not self._changed:
             return
 
